@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Product
+from .models import Product, Order
 from .forms import ProductForm
 from django.contrib.auth.models import User
 
@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 
 @login_required
 def index(request):
-    return render(request, 'dashboard/index.html',context)
+    return render(request, 'dashboard/index.html')
 
 
 #---------------------------------------------------------
@@ -24,21 +24,20 @@ def index(request):
 
 @login_required
 def staff(request): 
-    
-    
-    customer = User.objects.filter(groups=2)
-    customer_count = customer.count()
+    customers = User.objects.all()
+    customer_count = customers.count()
     product = Product.objects.all()
     product_count = product.count()
     order = Order.objects.all()
     order_count = order.count()
+
     context = {
-        'customer': customer,
+        'customer': customers,
         'customer_count': customer_count,
         'product_count': product_count,
         'order_count': order_count,
     }
-    return render(request, 'dashboard/staff.html')
+    return render(request, 'dashboard/staff.html', context)
 
 
 #=============================================================

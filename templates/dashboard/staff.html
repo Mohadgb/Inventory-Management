@@ -19,24 +19,16 @@
                 </tr>
             </thead>
             <tbody>
+                {% for customer in customers %}
                 <tr>
                     <td><a class="btn btn-info btn-sm" href="">View</a></td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{{ customer.username }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.profile.phone }}</td>
+
                 </tr>
-                <tr>
-                    <td><a class="btn btn-info btn-sm" href="">View</a></td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <td><a class="btn btn-info btn-sm" href="">View</a></td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                {% endfor %}
+                
             </tbody>
         </table>
     </div>
