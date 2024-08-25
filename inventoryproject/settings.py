@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'crispy_forms',
     'crispy_bootstrap4',
+
 ]
 
 MIDDLEWARE = [
@@ -131,13 +132,29 @@ STATICFILES_DIRS =[
 
 STATIC_ROOT = (BASE_DIR/"asert/")
 
-MEDIA_ROOT = (BASE_DIR / 'media')
+import os
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'dashboard-index'
 
 LOGIN_URL = 'user-login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'chum.dcaf.automatisations@gmail.com'
+EMAIL_HOST_PASSWORD = 'chum12345678'
+
+from django.core.mail.backends.smtp import EmailBackend as SMTPBackend
+
+class CustomSMTPBackend(SMTPBackend):
+    def __init__(self, *args, **kwargs):
+        kwargs['timeout'] = 60  # Increase timeout to 60 seconds
+        super().__init__(*args, **kwargs)
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

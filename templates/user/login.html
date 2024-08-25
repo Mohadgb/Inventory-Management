@@ -3,19 +3,135 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="row my-4">
-    <div class="col-md-6 offset-md-3">
-        <div class="border p-3 bg-white">
-            <h4>Login Page</h4>
-            <hr>
-            <form method="POST">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <input class="btn btn-success" type="submit" value="Login">
-            </form>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Open Sans", sans-serif;
+    }
+
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1; /* Take up remaining space */
+        padding: 0 10px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    h4 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .input-field {
+        position: relative;
+        border-bottom: 2px solid #ccc;
+        margin: 15px 0;
+    }
+
+    .input-field label {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 16px;
+        pointer-events: none;
+        transition: 0.15s ease;
+    }
+
+    .input-field input {
+        width: 100%;
+        height: 40px;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        color: #fff;
+    }
+
+    .input-field input:focus~label,
+    .input-field input:valid~label {
+        font-size: 0.8rem;
+        top: 10px;
+        transform: translateY(-120%);
+    }
+
+    .btn-forgot-password {
+        color: #efefef;
+        text-decoration: none;
+        margin-top: 15px;
+        display: block;
+    }
+
+    .btn-forgot-password:hover {
+        text-decoration: underline;
+    }
+
+    button {
+        background: #fff;
+        color: #000;
+        font-weight: 600;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius: 3px;
+        font-size: 16px;
+        border: 2px solid transparent;
+        transition: 0.3s ease;
+        margin-top: 20px;
+    }
+
+    button:hover {
+        color: #fff;
+        border-color: #fff;
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .register {
+        text-align: center;
+        margin-top: 30px;
+        color: #fff;
+    }
+</style>
+
+<div class="login-container">
+    <div class="card">
+        <h4>Login</h4>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit">Log In</button>
+        </form>
+        <div class="register">
+            <p>Don't have an account? <a href="{% url 'user-register' %}">Register</a></p>
         </div>
     </div>
 </div>
-
-
 {% endblock %}

@@ -5,19 +5,25 @@ from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm, UserUpdateForm, ProfileUpdateForm
 
 # Create your views here.
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import CreateUserForm
+
 def register(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            # Add a flash message
             return redirect('user-login')
-    else:    
+    else:
         form = CreateUserForm()
-    context = {
-        'form':form,
 
+    context = {
+        'form': form,
     }
     return render(request, 'user/register.html', context)
+
 
 def profile(request):
     context = {

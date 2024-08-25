@@ -3,20 +3,187 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-md-6 offset-md-3">
-                <div class="border bg-white p-3">
-                    <h3>Registration Page</h3>
-                    <hr>
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <input class="btn btn-success" type="submit" value="Register">
-                    </form>
-                </div>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Open Sans", sans-serif;
+    }
+
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        padding: 0 10px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 500px;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    h3 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .input-field {
+        position: relative;
+        border-bottom: 2px solid #ccc;
+        margin: 15px 0;
+    }
+
+    .input-field label {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        color: #333;
+        font-size: 16px;
+        pointer-events: none;
+        transition: 0.15s ease;
+    }
+
+    .input-field input {
+        width: 100%;
+        height: 40px;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .input-field input:focus~label,
+    .input-field input:valid~label {
+        font-size: 0.8rem;
+        top: 10px;
+        transform: translateY(-120%);
+    }
+
+    button {
+        background: #28a745;
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        border: 2px solid transparent;
+        transition: 0.3s ease;
+        margin-top: 20px;
+    }
+
+    button:hover {
+        background: #218838;
+    }
+
+    .btn-forgot-password {
+        color: #333;
+        text-decoration: none;
+        margin-top: 15px;
+        display: block;
+    }
+
+    .btn-forgot-password:hover {
+        text-decoration: underline;
+    }
+
+    .register {
+        text-align: center;
+        margin-top: 30px;
+        color: #333;
+    }
+
+    #flashMessage {
+        margin-top: 15px;
+    }
+</style>
+
+<div class="login-container">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title">Registration</h3>
+            <hr>
+            <!-- Flash Messages -->
+            <div id="flashMessage" class="alert alert-success d-none alert-dismissible fade show" role="alert">
+                Registration successful! Welcome aboard!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Registration Form -->
+            <form method="POST" onsubmit="handleFormSubmit(event)">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-success btn-block mt-3" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Registration Successful</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your registration was successful. You will be redirected shortly.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
 
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Show the modal
+        $('#confirmationModal').modal('show');
+
+        // Show the flash message
+        $('#flashMessage').removeClass('d-none');
+
+        // Optionally, submit the form after a delay
+        setTimeout(function() {
+            event.target.submit();
+        }, 2000); // Adjust delay as needed
+    }
+</script>
 {% endblock %}

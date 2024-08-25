@@ -1,0 +1,107 @@
+{% extends 'partials/base.html' %}
+{% block title %}Reservations Page{% endblock %}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Flash Messages -->
+            <div id="flashMessage" class="alert alert-success d-none alert-dismissible fade show" role="alert">
+                Information saved successfully!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <form id="reservationForm" method="POST" action="{% url 'dashboard-order-saveDate' %}" onsubmit="handleFormSubmit(event)">
+                {% csrf_token %}
+                <div class="table-responsive shadow-sm rounded mb-5">
+                    <table class="table table-hover bg-white m-0 rounded">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th scope="col" class="py-3 text-center">#</th>
+                                <th scope="col" class="py-3">Item</th>
+                                <th scope="col" class="py-3">Category</th>
+                                <th scope="col" class="py-3">Reserved By</th>
+                                <th scope="col" class="py-3">Quantity Ordered</th>
+                                <th scope="col" class="py-3">Reservation Date</th>
+                                <th scope="col" class="py-3">Date of Return</th>
+                                <th scope="col" class="py-3 text-center">Returned</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td class="align-middle text-center font-weight-bold">
+                                    <span class="badge bg-info custom-badge">{{ forloop.counter }}</span>
+                                </td>
+                                <td class="align-middle">{{ order.product }}</td>
+                                <td class="align-middle">{{ order.product.category }}</td>
+                                <td class="align-middle text-nowrap">{{ order.client.username }}</td>
+                                <td class="align-middle">{{ order.order_quantity }}</td>
+                                <td class="align-middle">{{ order.date|date:"d/m/Y" }}</td>
+                                <td class="align-middle">
+                                    <input type="date" name="date_of_return_{{ order.id }}" value="{{ order.date_of_return|date:'Y-m-d' }}" class="form-control">
+                                </td>
+                                <td class="text-center align-middle">
+                                    <input type="checkbox" name="returned_{{ order.id }}" {% if order.returned %}checked{% endif %} class="form-check-input">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Padding to prevent the last row from being hidden -->
+                <div style="height: 80px;"></div>
+
+                <!-- Fixed Save Button -->
+                <div class="fixed-bottom text-center  py-3 shadow-lg" style="border-top: 1px solid #ddd;">
+                    <button type="submit" class="btn btn-info btn-lg px-5 shadow" style="border-radius: 50px;">Save Information</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Information Saved</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your information was saved successfully.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="redirectAfterModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Show the modal
+        $('#confirmationModal').modal('show');
+    }
+
+    function redirectAfterModal() {
+        // Submit the form after the modal is closed
+        document.getElementById('reservationForm').submit();
+    }
+</script>
+
+{% endblock %}

@@ -16,17 +16,39 @@
                     var myChart1 = new Chart(ctx, {
                         type: 'pie',
                         data: {
-                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            labels: [{% for order in orders %}'{{order.product.name}}', {% endfor %}],
                             datasets: [{
-                                label: 'Products',
-                                data: [12, 19, 3, 5, 2, 3],
+                                label: 'Orders',
+                                data: [{% for order in orders %} '{{order.order_quantity}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(54, 162, 235, 1)',
                                     'rgba(255, 206, 86, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 123, 33, 1)',
+                                    'rgba(54, 54, 235, 1)',
+                                    'rgba(255, 100, 86, 1)',
+                                    'rgba(75, 87, 192, 1)',
+                                    'rgba(44, 102, 255, 1)',
+                                    'rgba(1234, 159, 64, 1)',
+                                    'rgba(12, 233, 132, 1)',
+                                    'rgba(549, 16, 235, 1)',
+                                    'rgba(25, 20, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(576, 1662, 35, 1)',
+                                    'rgba(322, 121, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 999, 13, 1)',
+                                    'rgba(514, 112, 2315, 1)',
+                                    'rgba(654, 45, 86, 1)',
+                                    'rgba(715, 19, 192, 1)',
                                 ],
                                 borderColor: [
                                     'rgba(255, 99, 132, 1)',
@@ -60,17 +82,39 @@
                     var myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            labels: [{% for product in products %}'{{product.name}}', {% endfor %}],
                             datasets: [{
                                 label: 'Products',
-                                data: [12, 19, 3, 5, 2, 3],
+                                data: [{% for product in products %}'{{product.quantity}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(54, 162, 235, 1)',
                                     'rgba(255, 206, 86, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 123, 33, 1)',
+                                    'rgba(54, 54, 235, 1)',
+                                    'rgba(255, 100, 86, 1)',
+                                    'rgba(75, 87, 192, 1)',
+                                    'rgba(44, 102, 255, 1)',
+                                    'rgba(1234, 159, 64, 1)',
+                                    'rgba(12, 233, 132, 1)',
+                                    'rgba(549, 16, 235, 1)',
+                                    'rgba(25, 20, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(576, 1662, 35, 1)',
+                                    'rgba(322, 121, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 999, 13, 1)',
+                                    'rgba(514, 112, 2315, 1)',
+                                    'rgba(654, 45, 86, 1)',
+                                    'rgba(715, 19, 192, 1)',
                                 ],
                                 borderColor: [
                                     'rgba(255, 99, 132, 1)',
@@ -100,6 +144,6 @@
 </div>
 <!--End Graphs-->
 {% else %}
-{% include 'dashboard/staff_index.html' %}
+{% include 'dashboard/customer_index.html' %}
 {% endif %}
 {% endblock %}

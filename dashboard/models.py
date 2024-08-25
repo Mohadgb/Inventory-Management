@@ -21,13 +21,16 @@ class Product(models.Model):
         verbose_name_plural = "CHUM Inventory"
 
     def __str__(self):
-        return f'{self.name}-{self.quantity}'
+        return f'{self.name} ({self.quantity})'
     
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     client = models.ForeignKey(User, models.CASCADE, null=True)     
     order_quantity = models.PositiveBigIntegerField(null=True)
     date = models.DateTimeField(auto_now_add=True)
+    date_of_return = models.DateField(null=True, blank=True)  # New field
+    returned = models.BooleanField(default=False)  # New field to track return status
+
 
     class Meta:
         verbose_name_plural = "Reservations"

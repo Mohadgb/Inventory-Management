@@ -2,7 +2,6 @@
 {% block title %} Inventory Page {% endblock %}
 {% load crispy_forms_tags %}
 
-
 {% block content %}
 
 {% include 'partials/topnav.html' %}
@@ -17,7 +16,7 @@
                     <h4 class="mb-0">Add Products</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" onsubmit="handleFormSubmit(event)">
                         {% csrf_token %}
                         {{ form|crispy }}
                         <button class="btn btn-success btn-block" type="submit">Add Product</button>
@@ -26,41 +25,80 @@
             </div>
         </div>
 
-       <!-- Product Table -->
-<div class="col-md-8">
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Product Table</h4>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0">
-                    <thead class="bg-info text-white">
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col" class="text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in items %}
-                        <tr>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.category }}</td>
-                            <td>{{ item.quantity }}</td>
-                            <td class="text-center">
-                                <a class="btn btn-success btn-sm mx-1" href="{% url 'dashboard-product-update' item.id %}">Edit</a>
-                                <a class="btn btn-danger btn-sm mx-1" href="{% url 'dashboard-product-delete' item.id %}">Delete</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        <!-- Product Table -->
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Product Table</h4>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped mb-0">
+                            <thead class="bg-info text-white">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.category }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-success btn-sm mx-1" href="{% url 'dashboard-product-update' item.id %}">Edit</a>
+                                        <a class="btn btn-danger btn-sm mx-1" href="{% url 'dashboard-product-delete' item.id %}">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- End Product Page Content -->
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Product Added</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                The product was successfully added. You will be redirected shortly.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Show the modal
+        $('#confirmationModal').modal('show');
+
+        // Optionally, submit the form after a delay
+        setTimeout(function() {
+            event.target.submit();
+        }, 2000); // Adjust delay as needed
+    }
+</script>
+
 {% endblock %}
