@@ -2,53 +2,99 @@
 {% block title %}Customer Detail Page{% endblock %}
 
 {% block content %}
-{% include 'partials/topnav.html' %}
-<div class="row my-4">
-    <div class="col-md-4"></div>
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header bg-info text-white">
-                Customer Detail Page
-            </div>
-            <div class="row p-3">
-                <div class="col-md-8">
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th colspan="2"><span class="h4">Profile Information</span></th>
-                            </tr>
-                            <tr><th colspan="2"><hr></th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Name</th>
-                                <td>{{ customers.username }}</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>{{ customers.email }}</td>
-                            </tr>
-                            <tr>
-                                <th>Phone</th>
-                                <td>{{ customers.profile.phone }}</td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td>{{ customers.profile.address }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-4">
-                    <img class="img-thumbnail" src="{{ customers.profile.image.url }}" alt="profile-image">
-                </div>
-            </div>
-        </div>
 
-        <!-- Centered Cancel Button -->
-        <div class="d-flex justify-content-center mt-2">
-            <a href="{% url 'dashboard-staff' %}" class="btn btn-secondary btn-lg">Cancel</a>
+{% include 'partials/topnav.html' %}
+
+<style>
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: none;
+    }
+
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .table-borderless th, .table-borderless td {
+        border: none;
+    }
+
+    .btn-secondary {
+        border-radius: 20px;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- Centered Card -->
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header">
+                    Customer Detail Page
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-8">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th colspan="2"><span class="h4">Profile Information</span></th>
+                                </tr>
+                                <tr><th colspan="2"><hr></th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <td>{{ customers.username }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ customers.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>{{ customers.profile.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>{{ customers.profile.address }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="img-thumbnail" src="{{ customers.profile.image.url }}" alt="profile-image">
+                    </div>
+                </div>
+                <!-- Centered Cancel Button -->
+                <div class="d-flex justify-content-center mt-2">
+                    <a href="{% url 'dashboard-staff' %}" class="btn btn-secondary btn-lg">Cancel</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<!-- End Centered Card -->
+
 {% endblock %}

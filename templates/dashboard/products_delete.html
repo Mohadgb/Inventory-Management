@@ -2,20 +2,97 @@
 {% block title %}Product Delete Page{% endblock %}
 
 {% block content %}
-<div class="row my-4">
-    <div class="col-md-6 offset-md-3">
-        <div class="border p-3 bg-white shadow-sm rounded">
-            <h3>Delete Item</h3>
-            <hr>
-            <div class="alert alert-danger">
-                <h4>Are you sure you want to delete "{{ item }}"?</h4>
+<style>
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: none;
+    }
+
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .alert {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+    }
+
+    .btn-secondary, .btn-danger {
+        border-radius: 20px;
+        border: none;
+        padding: 5px 15px;
+        font-size: 0.875rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-secondary {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-danger:hover {
+        background-color: rgba(0, 0, 0, 1);
+        transform: translateY(-2px);
+    }
+
+    .modal-content {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+    }
+
+    .modal-header, .modal-footer {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+    }
+</style>
+
+<!-- Centered Card -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    Delete Item
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h4>Are you sure you want to delete the item "{{ item.name }}" from your inventory?</h4>
+                    </div>
+                    <form id="deleteForm" method="POST">
+                        {% csrf_token %}
+                        {{ form }}
+                        <a class="btn btn-secondary btn-sm" href="{% url 'dashboard-product' %}">Cancel</a>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="showDeleteConfirmationModal()">Confirm</button>
+                    </form>
+                </div>
             </div>
-            <form id="deleteForm" method="POST">
-                {% csrf_token %}
-                {{ form }}
-                <a class="btn btn-secondary btn-sm" href="{% url 'dashboard-product' %}">Cancel</a>
-                <button type="button" class="btn btn-danger btn-sm" onclick="showDeleteConfirmationModal()">Confirm</button>
-            </form>
         </div>
     </div>
 </div>

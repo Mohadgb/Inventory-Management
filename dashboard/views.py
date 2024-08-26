@@ -68,7 +68,7 @@ def customers(request):
 #---------------------------------------------------------------------
 @login_required(login_url='user-login')
 def customer_detail(request, pk):
-    customer = User.objects.filter(groups=2)
+    customer = User.objects.all()
     customer_count = customer.count()
     product = Product.objects.all()
     product_count = product.count()
