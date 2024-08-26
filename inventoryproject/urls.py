@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dashboard.urls')),
     path('register/', user_view.register, name='user-register'),
-    path('', auth_views.LoginView.as_view(template_name='user/login.html'), name='user-login'),
+    #path('', auth_views.LoginView.as_view(template_name='user/login.html'), name='user-login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='user/logout.html'), name='user-logout'),
     path('profile/', user_view.profile, name= 'user-profile'),
     path('profile/update', user_view.profile_update, name= 'user-profile-update'),
@@ -34,6 +34,8 @@ urlpatterns = [
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password_reset_confirm/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('', user_view.CustomLoginView.as_view(), name='user-login'),
+
 
 
 

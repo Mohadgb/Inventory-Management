@@ -3,11 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm, UserUpdateForm, ProfileUpdateForm
+from django.contrib.auth import views as auth_views
 
 # Create your views here.
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import CreateUserForm
 
 def register(request):
     if request.method == 'POST':
@@ -50,3 +49,12 @@ def profile_update(request):
         'p_form': p_form,
     }
     return render(request, 'user/profile_update.html', context)
+
+
+class CustomLoginView(auth_views.LoginView):
+    template_name = 'user/login.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('/dashboard')
+        return super().dispatch(request, *args, **kwargs)

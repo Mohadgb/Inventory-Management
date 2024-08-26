@@ -1,44 +1,141 @@
 {% extends 'partials/base.html' %}
-{% block title %} Clients Page {% endblock %}
+{% block title %}Clients Page{% endblock %}
 
 {% block content %}
 
 {% include 'partials/topnav.html' %}
 
+<style>
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+    }
 
-<!-- Table -->
-<div class="d-flex justify-content-end mt-4">
-    <div class="col-md-8">
-        <table class="table bg-white m-0">
-            <thead class="bg-info">
-                <tr class="text-white">
-                    <th scope="col">Action</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for customer in customers %}
-                <tr>
-                    <td><a class="btn btn-info btn-sm mx-1" href="{% url 'dashboard-staff-detail' customer.id %}">View</a></td>                               
-                    <td>{{ customer.username }}</td>
-                    <td>{{ customer.email }}</td>
-                    <td>{{ customer.profile.phone }}</td>
+    .card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: none;
+    }
 
-                </tr>
-                {% endfor %}
-                
-            </tbody>
-        </table>
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .card-body {
+        color: #333;
+    }
+
+    .table-responsive {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 0; /* Remove padding to fit the table */
+    }
+
+    .table-title {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(0, 0, 0, 0.8); /* Dark black background */
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 0; /* No space between title and table */
+        text-align: left; /* Left align title */
+        font-size: 1.5rem; /* Font size for h4 */
+        font-weight: bold; /* Bold text */
+    }
+
+    .table-hover tbody tr:hover {
+        background: rgba(0, 0, 0, 0.1); /* Light black hover effect */
+    }
+
+    tbody tr {
+        background: rgba(255, 255, 255, 0.2); /* Default background */
+    }
+
+    tbody tr:nth-of-type(odd) {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2); /* Glassmorphism effect */
+    }
+
+    tbody tr:nth-of-type(even) {
+        background: rgba(255, 255, 255, 0.8); /* Light grey for alternate rows */
+    }
+
+    thead th {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-success, .btn-danger {
+        border-radius: 20px;
+        border: none;
+        padding: 5px 15px;
+        font-size: 0.875rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-success {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-success:hover {
+        background-color: rgba(0, 0, 0, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .btn-danger:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- Centered Table -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="table-title">Clients</div>
+            <div class="table-responsive shadow-sm rounded">
+                <table class="table table-hover mb-0"> <!-- Ensure no space below the table -->
+                    <thead class="text-white">
+                        <tr>
+                            <th scope="col">Action</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col" class="text-nowrap">Phone Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers %}
+                        <tr>
+                            <td>
+                                <a class="btn btn-info btn-sm mx-1" href="{% url 'dashboard-staff-detail' customer.id %}">
+                                    View
+                                </a>
+                            </td>
+                            <td>{{ customer.username }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td class="text-nowrap">{{ customer.profile.phone }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-
-<!-- End Table -->
-
-
-
-
-  
+<!-- End Centered Table -->
 
 {% endblock %}

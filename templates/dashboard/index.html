@@ -4,70 +4,123 @@
 {% block content %}
 {% if user.is_authenticated and user.is_staff and user.is_superuser %}
 {% include 'partials/topnav.html' %}
+<style>
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+    }
 
- <!--Graphs-->
- <div class="container">
+    .card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: none;
+    }
+
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .card-body {
+        color: #333;
+    }
+
+    .table-responsive {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+    }
+
+    .table-hover tbody tr:hover {
+        background: rgba(0, 0, 0, 0.1); /* Light black hover effect */
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background: rgba(0, 0, 0, 0.05); /* Light grey for alternating rows */
+    }
+
+    thead th {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-success, .btn-danger {
+        border-radius: 20px;
+        border: none;
+        padding: 5px 15px;
+        font-size: 0.875rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-success {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-success:hover {
+        background-color: rgba(0, 0, 0, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .btn-danger:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: translateY(-2px);
+    }
+</style>
+<!--Graphs-->
+<div class="container">
     <div class="row my-5">
         <div class="col-md-6">
-            <div class="bg-white">
-                <canvas id="myChart1" width="400" height="300"></canvas>
+            <div class="bg-light text-dark p-3 rounded">
+                <h4 class="text-center mb-3">Orders Over Time</h4>
+                <canvas id="lineChart" width="400" height="300"></canvas>
                 <script>
-                    var ctx = document.getElementById('myChart1').getContext('2d');
-                    var myChart1 = new Chart(ctx, {
-                        type: 'pie',
+                    var ctx = document.getElementById('lineChart').getContext('2d');
+                    var lineChart = new Chart(ctx, {
+                        type: 'line',
                         data: {
                             labels: [{% for order in orders %}'{{order.product.name}}', {% endfor %}],
                             datasets: [{
-                                label: 'Orders',
+                                label: 'Orders Over Time',
                                 data: [{% for order in orders %} '{{order.order_quantity}}', {% endfor %}],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(255, 123, 33, 1)',
-                                    'rgba(54, 54, 235, 1)',
-                                    'rgba(255, 100, 86, 1)',
-                                    'rgba(75, 87, 192, 1)',
-                                    'rgba(44, 102, 255, 1)',
-                                    'rgba(1234, 159, 64, 1)',
-                                    'rgba(12, 233, 132, 1)',
-                                    'rgba(549, 16, 235, 1)',
-                                    'rgba(25, 20, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(576, 1662, 35, 1)',
-                                    'rgba(322, 121, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(255, 999, 13, 1)',
-                                    'rgba(514, 112, 2315, 1)',
-                                    'rgba(654, 45, 86, 1)',
-                                    'rgba(715, 19, 192, 1)',
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ],
-                                borderWidth: 1
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 2,
+                                fill: true
                             }]
                         },
                         options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: 'white'
                                     }
-                                }]
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        color: 'white'
+                                    }
+                                },
+                                y: {
+                                    ticks: {
+                                        color: 'white'
+                                    }
+                                }
                             }
                         }
                     });
@@ -75,69 +128,68 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="bg-white">
-                <canvas id="myChart" width="400" height="300"></canvas>
+            <div class="bg-light text-dark p-3 rounded">
+                <h4 class="text-center mb-3">Products Distribution</h4>
+                <canvas id="barChart" width="400" height="300"></canvas>
                 <script>
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    var myChart = new Chart(ctx, {
+                    var ctx = document.getElementById('barChart').getContext('2d');
+                    var barChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: [{% for product in products %}'{{product.name}}', {% endfor %}],
                             datasets: [{
-                                label: 'Products',
+                                label: 'Product Distribution',
                                 data: [{% for product in products %}'{{product.quantity}}', {% endfor %}],
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(255, 123, 33, 1)',
-                                    'rgba(54, 54, 235, 1)',
-                                    'rgba(255, 100, 86, 1)',
-                                    'rgba(75, 87, 192, 1)',
-                                    'rgba(44, 102, 255, 1)',
-                                    'rgba(1234, 159, 64, 1)',
-                                    'rgba(12, 233, 132, 1)',
-                                    'rgba(549, 16, 235, 1)',
-                                    'rgba(25, 20, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(576, 1662, 35, 1)',
-                                    'rgba(322, 121, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(255, 999, 13, 1)',
-                                    'rgba(514, 112, 2315, 1)',
-                                    'rgba(654, 45, 86, 1)',
-                                    'rgba(715, 19, 192, 1)',
+                                    'rgba(54, 162, 235, 0.7)',  // Light Blue
+                                    'rgba(255, 99, 132, 0.7)',  // Light Red
+                                    'rgba(255, 159, 64, 0.7)',  // Light Orange
+                                    'rgba(75, 192, 192, 0.7)',  // Light Teal
+                                    'rgba(153, 102, 255, 0.7)', // Light Purple
+                                    'rgba(255, 206, 86, 0.7)',  // Light Yellow
+                                    'rgba(231, 76, 60, 0.7)',   // Light Coral
+                                    'rgba(46, 204, 113, 0.7)',  // Light Green
+                                    'rgba(52, 152, 219, 0.7)',  // Light Blue
+                                    'rgba(155, 89, 182, 0.7)'   // Light Violet
                                 ],
                                 borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
+                                    'rgba(0, 0, 0, 0)'  // Darker border for contrast
                                 ],
                                 borderWidth: 1
                             }]
                         },
                         options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: 'white'
                                     }
-                                }]
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        color: 'white'
+                                    },
+                                    grid: {
+                                        color: 'rgba(255, 255, 255, 0.2)'
+                                    }
+                                },
+                                y: {
+                                    ticks: {
+                                        color: 'white'
+                                    },
+                                    grid: {
+                                        color: 'rgba(255, 255, 255, 0.2)'
+                                    }
+                                }
                             }
                         }
                     });
                 </script>
+                
+                
+                
             </div>
         </div>
     </div>

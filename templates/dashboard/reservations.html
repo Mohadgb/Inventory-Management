@@ -4,7 +4,96 @@
 {% block content %}
 {% include 'partials/topnav.html' %}
 
-<div class="container mt-3">
+<style>
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: none;
+    }
+
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .card-body {
+        color: #333;
+    }
+
+    .table-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white; /* White text for title */
+        background-color: rgba(0, 0, 0, 0.9); /* Dark black background */
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 0; /* No space between title and table */
+        text-align: left; /* Align title to the left */
+        margin-top: 20px; /* Optional: Adjust top margin if needed */
+    }
+
+    .table-responsive {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 0; /* Remove padding to match the size of the table */
+    }
+
+    .table-hover tbody tr:hover {
+        background: rgba(0, 0, 0, 0.1); /* Light black hover effect */
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background: rgba(255, 255, 255, 0.8); /* Regular white rows */
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background: rgba(255, 255, 255, 0.4); /* Glassmorphism effect for every second row */
+    }
+
+    thead th {
+        background-color: rgba(0, 0, 0, 0.8); /* Darker black for header */
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-success, .btn-danger {
+        border-radius: 20px;
+        border: none;
+        padding: 5px 15px;
+        font-size: 0.875rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-success {
+        background-color: rgba(0, 0, 0, 0.9); /* Dark black */
+    }
+
+    .btn-success:hover {
+        background-color: rgba(0, 0, 0, 1); /* Solid black on hover */
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: rgba(0, 0, 0, 0.7); /* Darker grey */
+    }
+
+    .btn-danger:hover {
+        background-color: rgba(0, 0, 0, 0.9); /* Darker grey on hover */
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <!-- Flash Messages -->
@@ -18,8 +107,9 @@
             <form id="reservationForm" method="POST" action="{% url 'dashboard-order-saveDate' %}" onsubmit="handleFormSubmit(event)">
                 {% csrf_token %}
                 <div class="table-responsive shadow-sm rounded mb-5">
-                    <table class="table table-hover bg-white m-0 rounded">
-                        <thead class="bg-info text-white">
+                    <div class="table-title">Reservations</div>
+                    <table class="table table-hover table-striped m-0 rounded">
+                        <thead>
                             <tr>
                                 <th scope="col" class="py-3 text-center">#</th>
                                 <th scope="col" class="py-3">Item</th>
@@ -35,7 +125,7 @@
                             {% for order in orders %}
                             <tr>
                                 <td class="align-middle text-center font-weight-bold">
-                                    <span class="badge bg-info custom-badge">{{ forloop.counter }}</span>
+                                    <span class="badge custom-badge">{{ forloop.counter }}</span>
                                 </td>
                                 <td class="align-middle">{{ order.product }}</td>
                                 <td class="align-middle">{{ order.product.category }}</td>
@@ -58,8 +148,8 @@
                 <div style="height: 80px;"></div>
 
                 <!-- Fixed Save Button -->
-                <div class="fixed-bottom text-center  py-3 shadow-lg" style="border-top: 1px solid #ddd;">
-                    <button type="submit" class="btn btn-info btn-lg px-5 shadow" style="border-radius: 50px;">Save Information</button>
+                <div class="fixed-bottom text-center py-3 shadow-lg" style="border-top: 1px solid #ddd; background: transparent;">
+                    <button type="submit" class="btn btn-success btn-lg px-5 shadow" style="border-radius: 20px;">Save Information</button>
                 </div>
             </form>
         </div>

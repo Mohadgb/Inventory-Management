@@ -9,19 +9,98 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
-        function handleSubmit(event) {
-            event.preventDefault(); // Prevent the default form submission
-            
-            // Show the modal
-            $('#confirmationModal').modal('show');
-            
-            // Handle the form submission after the modal is dismissed
-            $('#confirmButton').click(function() {
-                event.target.submit();
-            });
+    <style>
+        body {
+            background: url('/media/background-image.png') no-repeat center center fixed;
+            background-size: cover;
         }
-    </script>
+
+        .card {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: none;
+        }
+
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .card-body {
+            color: #333;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white; /* White text for title */
+            background-color: rgba(0, 0, 0, 0.9); /* Dark black background */
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 0; /* No space between title and table */
+            text-align: left; /* Align title to the left */
+            margin-top: 20px; /* Optional: Adjust top margin if needed */
+        }
+
+        .table-responsive {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0; /* Remove padding to match the size of the table */
+        }
+
+        .table-hover tbody tr:hover {
+            background: rgba(0, 0, 0, 0.1); /* Light black hover effect */
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background: rgba(255, 255, 255, 0.8); /* Regular white rows */
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background: rgba(255, 255, 255, 0.4); /* Glassmorphism effect for every second row */
+        }
+
+        thead th {
+            background-color: rgba(0, 0, 0, 0.8); /* Darker black for header */
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-info {
+            border-radius: 20px;
+            border: none;
+            padding: 5px 15px;
+            font-size: 0.875rem;
+            transition: background 0.3s ease, transform 0.2s ease;
+            background-color: rgba(0, 0, 0, 0.9); /* Dark black */
+            color: white; /* White text */
+        }
+
+        .btn-info:hover {
+            background-color: rgba(0, 0, 0, 1); /* Solid black on hover */
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            border-radius: 20px;
+            border: none;
+            padding: 5px 15px;
+            font-size: 0.875rem;
+            transition: background 0.3s ease, transform 0.2s ease;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker grey */
+            color: white; /* White text */
+        }
+
+        .btn-danger:hover {
+            background-color: rgba(0, 0, 0, 0.9); /* Darker grey on hover */
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-4">
@@ -46,28 +125,30 @@
                         Orders Records
                     </div>
                     <div class="card-body">
-                        <table class="table bg-white">
-                            <thead class="bg-info text-white">
-                                <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Reservation Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for order in orders %}
-                                {% if order.client == user %}
-                                <tr>
-                                    <td>{{ order.product.name }}</td>
-                                    <td>{{ order.product.category }}</td>
-                                    <td>{{ order.order_quantity }}</td>
-                                    <td>{{ order.date }}</td>
-                                </tr>
-                                {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover bg-white">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Reservation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    {% if order.client == user %}
+                                    <tr>
+                                        <td>{{ order.product.name }}</td>
+                                        <td>{{ order.product.category }}</td>
+                                        <td>{{ order.order_quantity }}</td>
+                                        <td>{{ order.date }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -94,5 +175,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+            
+            // Show the modal
+            $('#confirmationModal').modal('show');
+            
+            // Handle the form submission after the modal is dismissed
+            $('#confirmButton').click(function() {
+                event.target.submit();
+            });
+        }
+    </script>
 </body>
 </html>
