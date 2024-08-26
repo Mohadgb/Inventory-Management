@@ -39,15 +39,15 @@
     }
 
     .table-hover tbody tr:hover {
-        background: rgba(0, 0, 0, 0.1); /* Light black hover effect */
+        background: rgba(0, 0, 0, 0.1) !important; /* Ensure hover effect is applied */
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
-        background: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.8); /* Light grey for odd rows */
     }
 
     .table-striped tbody tr:nth-of-type(even) {
-        background: rgba(0, 0, 0, 0.05); /* Light grey for alternating rows */
+        background: rgba(0, 0, 0, 0.05); /* Very light grey for even rows */
     }
 
     thead th {
@@ -106,7 +106,7 @@
         <div class="col-md-8">
             <div class="card shadow-sm border-0">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0">Items </h4>
+                    <h4 class="mb-0">Items</h4>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
