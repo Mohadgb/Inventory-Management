@@ -3,24 +3,77 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="row my-4">
-    <div class="col-md-4"></div>
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header bg-info text-white">
-                Customer Detail Page
-            </div>
-            <div class="row p-3">
-                <div class="col-md-8">
-                    <form id="profileForm" method="POST" enctype="multipart/form-data" onsubmit="handleFormSubmit(event)">
-                        {% csrf_token %}
-                        {{ u_form|crispy }}
-                        {{ p_form|crispy }}
-                        <div class="text-left mt-3">
-                            <button type="submit" class="btn btn-info">Update</button>
-                            <a href="{% url 'user-profile' %}" class="btn btn-secondary">Cancel</a>
-                        </div>
-                    </form>
+<style>
+    body {
+        background: url('/media/background-image.png') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: none;
+    }
+
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .btn-info {
+        border-radius: 20px;
+        border: none;
+        padding: 5px 15px;
+        font-size: 0.875rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-info:hover {
+        background-color: rgba(0, 0, 0, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        border-radius: 20px;
+        border: none;
+        padding: 5px 15px;
+        font-size: 0.875rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .modal-content {
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        border: none;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Customer Detail Page
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-12">
+                        <form id="profileForm" method="POST" enctype="multipart/form-data" onsubmit="handleFormSubmit(event)">
+                            {% csrf_token %}
+                            {{ u_form|crispy }}
+                            {{ p_form|crispy }}
+                            <div class="text-left mt-3">
+                                <button type="submit" class="btn btn-info">Update</button>
+                                <a href="{% url 'user-profile' %}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,16 +106,17 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
     function handleFormSubmit(event) {
-        event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // Prevent the form from being submitted immediately
+    
+    // Show the success modal
+    $('#successModal').modal('show');
 
-        // Show the success modal
-        $('#successModal').modal('show');
-        
-        // Optionally, submit the form after a delay
-        setTimeout(function() {
-            document.getElementById('profileForm').submit();
-        }, 2000); // Adjust delay as needed
-    }
+    // Submit the form after the modal closes
+    $('#successModal').on('hidden.bs.modal', function () {
+        document.getElementById('profileForm').submit();
+    });
+}
+
 
     function redirectToProfile() {
         window.location.href = "{% url 'user-profile' %}";
